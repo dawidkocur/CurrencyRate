@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    {% if user.currencyEventMin|length > 0 %}
+        Waluty, które osiągnęły wartość minimalną:<br>
+        {% for currencies in user.currencyEventMin %}
+            {{ currencies }}<br><br>
+        {% endfor %}
+    {% endif %}
+    
+    {% if user.currencyEventMax|length > 0 %}
+        Waluty, które osiągnęły wartość maksymalną:<br>
+        {% for currencies in user.currencyEventMax %}
+            {{ currencies }}<br><br>
+        {% endfor %}
+    {% endif %}
+    <br><br>
+    Jeżeli nie chcesz już otrzymywać wiadomości o kursach walut, możesz wypisać się ze subskrypcji klikając w poniższy link:
+    <a href="{{ url('removeUser', {email: user.email }) }}">kliknij</a>
+
+{% endblock %}
