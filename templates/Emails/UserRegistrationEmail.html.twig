@@ -1,12 +1,11 @@
 {% extends 'base.html.twig' %}
 
-
 {% block body %}
 
     Dziękujemy za rejestrację w serwisie.<br><br>
     
     Celem zakończenia procesu rejestracji potwierdź chęć otrzymywania powiadomień
-    klikająć w poniższy link:<br><br>
+    klikając w poniższy link:<br><br>
     <a href="{{ url('confirm', {email: user.email }) }}">kliknij</a>
 
 {% endblock %}

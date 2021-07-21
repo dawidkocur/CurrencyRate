@@ -5,6 +5,7 @@ namespace App\Service\Mailer;
 use App\Entity\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 
 class UserRegistrationMailer
 {
@@ -15,11 +16,15 @@ class UserRegistrationMailer
         $this->mailer = $mailer;
     }
 
-    public function send($user)
+    /**
+     * @param User $user
+     * @return TemplatedEmail $email
+     */
+    public function sendEmail($user): TemplatedEmail
     {
         $email = (new TemplatedEmail())
-        ->from('example@example.com')
-        ->to($user->getEmail())
+        ->from(new Address('currency_rate@example.com', 'CurrencyRate'))
+        ->to(new Address($user->getEmail(), $user->getName()))
         ->subject('Witaj w naszej aplikacji')
         ->htmlTemplate('Emails/UserRegistrationEmail.html.twig')
         ->context([
@@ -27,5 +32,7 @@ class UserRegistrationMailer
         ]);
     
         $this->mailer->send($email);
+
+        return $email;
     }
 }

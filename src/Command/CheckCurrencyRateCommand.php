@@ -9,15 +9,18 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Routing\RouterInterface;
 
 class CheckCurrencyRateCommand extends Command
 {
     private $requestTokenAuth;
+    private $router;
 
-    public function __construct(RequestTokenAuth $requestTokenAuth)
+    public function __construct(RequestTokenAuth $requestTokenAuth, RouterInterface $router)
     {
         parent::__construct();
         $this->requestTokenAuth = $requestTokenAuth;
+        $this->router = $router;
     }
 
     protected static $defaultName = 'app:check-currency-rate';
@@ -34,8 +37,8 @@ class CheckCurrencyRateCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $this->requestTokenAuth->sendRequest('https://127.0.0.1:8000/currency_api', 'GET');
-
+        $this->requestTokenAuth->sendRequest($this->router->generate('currencyApi', [], 0), 'GET');
+        
         $io->success('Mission success!');
 
         return Command::SUCCESS;

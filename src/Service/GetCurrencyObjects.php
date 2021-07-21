@@ -2,8 +2,14 @@
 
 namespace App\Service;
 
+use stdClass;
+
 class GetCurrencyObjects
 {
+    /**
+     * @param array $data
+     * @return stdClass[]
+     */
     public function get($data)
     {
         $actualCurrencies = [];

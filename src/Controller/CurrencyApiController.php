@@ -21,12 +21,12 @@ class CurrencyApiController extends AbstractController
      * @Route("/currency_api", name="currencyApi")
      */
     public function currencyApi(RequestTokenAuth $requestTokenAuth, GetCurrencyObjects $getCurrencyObjects,
-        PopulateCurrencyRate $updateCurrencyRate, RouterInterface $router)
+        PopulateCurrencyRate $populateCurrencyRate, RouterInterface $router)
     {
         $data = $requestTokenAuth->sendRequest('http://api.nbp.pl/api/exchangerates/tables/A/', 'GET');
         
         $currencyObjects = $getCurrencyObjects->get($data);
-        $updateCurrencyRate->populate($currencyObjects);
+        $populateCurrencyRate->populate($currencyObjects);
 
         return new RedirectResponse($router->generate('checkCurrency'));
     }

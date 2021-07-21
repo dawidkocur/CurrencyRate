@@ -40,9 +40,13 @@ class PurgeUserTableCommand extends Command
         
         $users = $this->entityManager->getRepository(User::class)->findAll();
 
+        $io->progressStart(count($users));
+
         foreach ($users as $user) {
+            $io->progressAdvance();
             $this->removeEntity->remove($user);
         }
+        $io->progressFinish();
 
         $io->success('Cool!');
 

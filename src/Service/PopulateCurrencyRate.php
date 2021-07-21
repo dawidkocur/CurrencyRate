@@ -17,6 +17,9 @@ class PopulateCurrencyRate
         $this->purgeCurrencyRate = $purgeCurrencyRate;
     }
 
+    /**
+     * @param stdClass[]
+     */
     public function populate($actualCurrencyRate)
     {
         $this->purgeCurrencyRate->purge();
