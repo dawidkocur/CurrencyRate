@@ -4,17 +4,14 @@ namespace App\Service;
 
 use App\Entity\CurrencyRate;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Service\PurgeCurrencyRate;
 
 class PopulateCurrencyRate
 {
     private $entityManager;
-    private $purgeCurrencyRate;
 
-    public function __construct(EntityManagerInterface $entityManager, PurgeCurrencyRate $purgeCurrencyRate)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->purgeCurrencyRate = $purgeCurrencyRate;
     }
 
     /**

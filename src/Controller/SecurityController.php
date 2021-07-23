@@ -26,7 +26,7 @@ class SecurityController extends AbstractController
         $user = $createNewUser->create($data);
 
         $saveEntity->save($user);
-        $userRegistrationMailer->sendEmail($user);  
+        $userRegistrationMailer->send($user);  
 
         return new JsonResponse('Perfect!');
     }

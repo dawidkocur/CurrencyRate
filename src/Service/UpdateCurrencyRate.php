@@ -3,19 +3,12 @@
 namespace App\Service;
 
 use App\Entity\CurrencyRate;
-use Doctrine\ORM\EntityManagerInterface;
 
-class UpdateCurrencyRate
+class UpdateCurrencyRate extends CurrencyRateService
 {
-    private $entityManager;
-    private $populateCurrencyRate;
-
-    public function __construct(EntityManagerInterface $entityManager, PopulateCurrencyRate $populateCurrencyRate)
-    {
-        $this->entityManager = $entityManager;
-        $this->populateCurrencyRate = $populateCurrencyRate;
-    }
-
+    /**
+     * @param stdClass[] $objects
+     */
     public function update($objects)
     {        
         $currencyRate = $this->entityManager->getRepository(CurrencyRate::class)->findAll();

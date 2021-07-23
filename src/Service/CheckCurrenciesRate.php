@@ -14,7 +14,7 @@ class CheckCurrenciesRate
     {
         $this->entityManager = $entityManager;
     }
-    
+
     public function check()
     {
         $currencies = $this->entityManager->getRepository(CurrencyRate::class)->findAll();

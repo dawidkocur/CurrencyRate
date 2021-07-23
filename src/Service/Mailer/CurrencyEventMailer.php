@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 
 class CurrencyEventMailer
 {
@@ -29,8 +30,8 @@ class CurrencyEventMailer
             if ($currencyMin || $currencyMax) {
                 $email = (new TemplatedEmail());
                 $email
-                    ->from('example@example.com')
-                    ->to($user->getEmail())
+                    ->from(new Address('currency_rate@example.com', 'CurrencyRate'))
+                    ->to(new Address($user->getEmail(), $user->getName()))
                     ->subject('Powiadomienie o zmianie wartości wybranej waluty')
                     ->htmlTemplate('Emails/CurrencyEventEmail.html.twig')
                     ->context([
@@ -38,6 +39,8 @@ class CurrencyEventMailer
                     ]);
                 
                 $this->mailer->send($email);
+
+                return $email;
             }
         }
     }

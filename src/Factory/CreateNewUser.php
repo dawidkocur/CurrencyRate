@@ -14,15 +14,14 @@ class CreateNewUser extends UserFactory
     public function create($data): User
     {
         $user = $this->createUser();
-        $object = (object) $data;
-
+        
         $user
-        ->setEmail($object->email)
-        ->setName($object->name)
-        ->setSurname($object->surname)
-        ->setPhoneNumber($object->phoneNumber)
-        ->setBirthDate(new \DateTimeImmutable($object->birthDate))
-        ->setCurrencies($object->currencies)
+        ->setEmail($data[0]['email'])
+        ->setName($data[0]['name'])
+        ->setSurname($data[0]['surname'])
+        ->setPhoneNumber($data[0]['phoneNumber'])
+        ->setBirthDate(new \DateTimeImmutable($data[0]['birthDate']))
+        ->setCurrencies($data[0]['currencies'])
         ->setConfirmed(false);
 
         return $user;

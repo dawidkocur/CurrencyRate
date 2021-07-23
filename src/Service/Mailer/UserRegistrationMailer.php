@@ -20,7 +20,7 @@ class UserRegistrationMailer
      * @param User $user
      * @return TemplatedEmail $email
      */
-    public function sendEmail($user): TemplatedEmail
+    public function send($user): TemplatedEmail
     {
         $email = (new TemplatedEmail())
         ->from(new Address('currency_rate@example.com', 'CurrencyRate'))
