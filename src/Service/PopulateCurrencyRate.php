@@ -8,10 +8,12 @@ use Doctrine\ORM\EntityManagerInterface;
 class PopulateCurrencyRate
 {
     private $entityManager;
+    private $purgeCurrencyRate;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, PurgeCurrencyRate $purgeCurrencyRate)
     {
         $this->entityManager = $entityManager;
+        $this->purgeCurrencyRate = $purgeCurrencyRate;
     }
 
     /**

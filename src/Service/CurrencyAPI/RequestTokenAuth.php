@@ -12,9 +12,8 @@ class RequestTokenAuth extends CustomRequest
      */
     public function sendRequest($url, $requestType, $data = '')
     {
-        $client = curl_init();
-        curl_setopt($client, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($this->client, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         
-        return $this->execute($client, $url, $requestType, $data = '');
+        return $this->execute($url, $requestType, $data);
     }
 }

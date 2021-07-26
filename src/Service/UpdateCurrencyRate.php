@@ -3,9 +3,17 @@
 namespace App\Service;
 
 use App\Entity\CurrencyRate;
+use Doctrine\ORM\EntityManagerInterface;
 
-class UpdateCurrencyRate extends CurrencyRateService
+class UpdateCurrencyRate
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * @param stdClass[] $objects
      */

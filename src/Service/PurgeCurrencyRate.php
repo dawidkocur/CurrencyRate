@@ -3,17 +3,9 @@
 namespace App\Service;
 
 use App\Entity\CurrencyRate;
-use Doctrine\ORM\EntityManagerInterface;
 
-class PurgeCurrencyRate
+class PurgeCurrencyRate extends CurrencyRateService
 {
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
     public function purge()
     {
         $currencyRate = $this->entityManager->getRepository(CurrencyRate::class)->findAll();
