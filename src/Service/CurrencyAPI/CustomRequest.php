@@ -11,6 +11,8 @@ abstract class CustomRequest
         $this->client = curl_init();
     }
 
+    abstract protected function sendRequest($url, $requestType, $data = '', $credentials);
+
     protected function execute($url, $requestType, $data)
     {
         curl_setopt($this->client, CURLOPT_SSL_VERIFYPEER, false);
@@ -19,8 +21,9 @@ abstract class CustomRequest
 
         curl_setopt($this->client, CURLOPT_URL, $url);
         curl_setopt($this->client, CURLOPT_CUSTOMREQUEST, $requestType);
+        curl_setopt($this->client, CURLOPT_HTTPHEADER, array('Accept: application/json'));
         curl_setopt($this->client, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($this->client, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($this->client, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->client, CURLOPT_FAILONERROR, true);
  
         $response = curl_exec($this->client);
@@ -33,6 +36,6 @@ abstract class CustomRequest
             throw new \RuntimeException($error, $errorNumber);
         }
  
-        return json_decode($response, true);
+        return $response;
     }
 }

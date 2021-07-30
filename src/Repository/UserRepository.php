@@ -19,6 +19,34 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    /**
+     * @return User[]
+     */
+    public function searchConfirmedUsers()
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.confirmed = true')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return User[]
+     */
+    public function searchUsersWithCurrencyEvent()
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere(
+                'e.currencyEventMin IS NOT NULL
+                OR e.currencyEventMax IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
+
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

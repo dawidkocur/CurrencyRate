@@ -14,7 +14,7 @@ class SecurityControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/register_email', 
+        $crawler = $client->request('POST', '/register_email', 
         array(),
         array(),
         array('CONTENT_TYPE' => 'application/json'),

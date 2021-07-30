@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\CurrencyRate;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CheckCurrenciesRate
@@ -18,7 +19,10 @@ class CheckCurrenciesRate
     public function check()
     {
         $currencies = $this->entityManager->getRepository(CurrencyRate::class)->findAll();
-        $users = $this->entityManager->getRepository(User::class)->findAll();
+        
+        /** @var UserRepository @userRepo */
+        $userRepo = $this->entityManager->getRepository(User::class);
+        $users = $userRepo->searchConfirmedUsers();
 
         foreach ($currencies as $currency) {
             $rate = $currency->getMid();

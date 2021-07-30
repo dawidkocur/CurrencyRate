@@ -3,6 +3,7 @@
 namespace App\Service\User;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PurgeUserCurrencyEvents
@@ -16,7 +17,10 @@ class PurgeUserCurrencyEvents
 
     public function purge()
     {
-        $users = $this->entityManager->getRepository(User::class)->findAll();
+        /** @var UserRepository @userRepo */
+        $userRepo = $this->entityManager->getRepository(User::class);
+        $users = $userRepo->searchUsersWithCurrencyEvent();
+        
         foreach ($users as $user) {
             $user->setCurrencyEventMin(array());
             $user->setCurrencyEventMax(array());

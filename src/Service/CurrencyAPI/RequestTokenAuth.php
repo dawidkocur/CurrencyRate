@@ -8,9 +8,11 @@ class RequestTokenAuth extends CustomRequest
      * @param string $url
      * @param string $requestType
      * @param mixed $data
-     * @param string $token
+     * @param array $credentials
+     * 
+     * @return json
      */
-    public function sendRequest($url, $requestType, $data = '')
+    public function sendRequest($url, $requestType, $data = '', $credentials)
     {
         curl_setopt($this->client, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         

@@ -8,27 +8,31 @@ use App\Service\User\ConfirmUser;
 use App\Service\EntityService\SaveEntity;
 use App\Service\Mailer\UserRegistrationMailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Json;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/register_email", name="registerEmail")
+     * @Route("/register_email", name="registerEmail", methods={"POST"})
      */
-    public function registerEmail(Request $request, CreateNewUser $createNewUser, SaveEntity $saveEntity,
-        UserRegistrationMailer $userRegistrationMailer)
+    public function registerEmail(Request $request, SaveEntity $saveEntity,
+        UserRegistrationMailer $userRegistrationMailer, SerializerInterface $serializer, ValidatorInterface $validator)
     {
-        $data = json_decode($request->getContent(), true);
-        $user = $createNewUser->create($data);
+        $user = $serializer->deserialize($request->getContent(), User::class, 'json');
 
+        $violations = $validator->validate($user);
+        if ($violations->count() > 0) {
+            return $this->json($violations, 400);
+        }
+ 
         $saveEntity->save($user);
         $userRegistrationMailer->send($user);  
 
-        return new JsonResponse('Perfect!');
+        return $this->json($user, 201, []);
     }
 
     /**
