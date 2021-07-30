@@ -14,10 +14,12 @@ class CheckCurrenciesRateTest extends CustomKernelTestCase
         $kernel = self::bootKernel();
 
         $entityManager = $this->getEntityManager();
+        $serializer = $this->getSerializer();
+
         $user = $this->createUser();
         $this->CreateCurrencyRate();
 
-        $checkCurrenciesRate = new CheckCurrenciesRate($entityManager);
+        $checkCurrenciesRate = new CheckCurrenciesRate($entityManager, $serializer);
         $checkCurrenciesRate->check();
        
         $entityManager->refresh($user);

@@ -2,18 +2,22 @@
 
 namespace App\Service;
 
+use App\DTO\UserCurrency;
 use App\Entity\CurrencyRate;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class CheckCurrenciesRate
 {
     private $entityManager;
+    private $serializer;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, SerializerInterface $serializer)
     {
         $this->entityManager = $entityManager;
+        $this->serializer = $serializer;
     }
 
     public function check()
@@ -30,20 +34,21 @@ class CheckCurrenciesRate
             
             foreach ($users as $user) {
                 $userCurrencies = $user->getCurrencies();
-                $currencyObjects = json_decode(json_encode($userCurrencies), false) ;
+                
+                foreach ($userCurrencies as $userCurrency) {
+                    $data = json_encode($userCurrency);
+                    $userCurrencyObject = $this->serializer
+                    ->deserialize($data, UserCurrency::class, 'json');
                     
-                foreach ($currencyObjects as $object) {
-                    $currencyObject = $object;
-                    
-                    if ($currencyObject->currency === $name) {
+                    if ($userCurrencyObject->currency === $name) {
                         
-                        if ($rate <= $currencyObject->rates->min) {
+                        if ($rate <= $userCurrencyObject->min) {
                             $array = $user->getCurrencyEventMin();
                             array_push($array, $name.' - '.$rate);
                             $user->setCurrencyEventMin($array);
                             $this->entityManager->persist($user);
                         
-                        } else if ($rate >= $currencyObject->rates->max) {
+                        } else if ($rate >= $userCurrencyObject->max) {
                             $array = $user->getCurrencyEventMax();
                             array_push($array, $name.' - '.$rate);
                             $user->setCurrencyEventMax($array);

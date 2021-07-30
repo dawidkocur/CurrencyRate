@@ -65,7 +65,7 @@ class User
     private $birthDate;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $currencies = [];
 

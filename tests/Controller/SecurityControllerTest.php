@@ -26,10 +26,8 @@ class SecurityControllerTest extends WebTestCase
                 "birthDate": "1980-04-21",
                 "currencies": {
                     "currency": "euro",
-                    "rates": {
                         "min": "4.4000",
                         "max": "4.5000"
-                    }
                 }
             }]'
         );

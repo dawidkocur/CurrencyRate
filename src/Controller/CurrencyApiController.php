@@ -7,12 +7,11 @@ use App\Service\CheckCurrenciesRate;
 use App\Service\CurrencyAPI\RequestTokenAuth;
 use App\Service\Mailer\CurrencyEventMailer;
 use App\Service\EntityService\RemoveEntity;
-use App\Service\GetCurrencyObjects;
-use App\Service\PopulateCurrencyRate;
+use App\Service\GetCurrencyRates;
 use App\Service\User\PurgeUserCurrencyEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -21,13 +20,12 @@ class CurrencyApiController extends AbstractController
     /**
      * @Route("/currency_api", name="currencyApi")
      */
-    public function currencyApi(RequestTokenAuth $requestTokenAuth, GetCurrencyObjects $getCurrencyObjects,
-        PopulateCurrencyRate $populateCurrencyRate, RouterInterface $router)
+    public function currencyApi(RequestTokenAuth $requestTokenAuth, GetCurrencyRates $getCurrencyRates,
+        RouterInterface $router)
     {
-        $data = $requestTokenAuth->sendRequest('http://api.nbp.pl/api/exchangerates/tables/A/', 'GET');
+        $data = $requestTokenAuth->sendRequest('http://api.nbp.pl/api/exchangerates/tables/A/', 'GET', null);
         
-        $currencyObjects = $getCurrencyObjects->get($data);
-        $populateCurrencyRate->populate($currencyObjects);
+        $getCurrencyRates->get($data);
 
         return new RedirectResponse($router->generate('checkCurrency'));
     }
@@ -42,8 +40,7 @@ class CurrencyApiController extends AbstractController
         $CurrencyEventMailer->send();
         $purgeUserCurrencyEvents->purge();
         
-        $data = 'lol';
-        return $this->Json($data);
+        return new Response(null);
     }
 
     /**
@@ -53,6 +50,6 @@ class CurrencyApiController extends AbstractController
     {
         $removeEntity->remove($user);
 
-        return $this->json('done');
+        return new Response(null, 204);
     }
 }

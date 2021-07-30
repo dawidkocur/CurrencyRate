@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Service\Mailer\CurrencyEventMailer;
 use App\Service\Mailer\UserRegistrationMailer;
 use App\tests\Service\CustomKernelTestCase;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Zenstruck\Foundry\Test\ResetDatabase;

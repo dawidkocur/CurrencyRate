@@ -11,7 +11,7 @@ abstract class CustomRequest
         $this->client = curl_init();
     }
 
-    abstract protected function sendRequest($url, $requestType, $data = '', $credentials);
+    abstract protected function sendRequest($url, $requestType, $credentials, $data = '');
 
     protected function execute($url, $requestType, $data)
     {
@@ -36,6 +36,6 @@ abstract class CustomRequest
             throw new \RuntimeException($error, $errorNumber);
         }
  
-        return $response;
+        return json_decode($response, true);
     }
 }

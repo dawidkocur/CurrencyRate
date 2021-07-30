@@ -15,6 +15,13 @@ class CustomKernelTestCase extends KernelTestCase
         return $entityManager;
     }
 
+    protected function getSerializer()
+    {
+        $serializer = static::getContainer()->get('serializer');
+
+        return $serializer;
+    }
+
     /**
      * @return User
      */
@@ -29,13 +36,18 @@ class CustomKernelTestCase extends KernelTestCase
             ->setSurname('Nowak')
             ->setPhoneNumber('398765432')
             ->setBirthDate(new \DateTimeImmutable('1992-04-21'))
-            ->setCurrencies([[
+            ->setCurrencies([
+                [
                 'currency' => 'euro',
-                'rates' => [
-                    'min' => '4.5500',
-                    'max' => '5.0000'
+                'min' => '4.5500',
+                'max' => '5.0000'
+                ],
+                [
+                'currency' => 'dolar',
+                'min' => '3.5500',
+                'max' => '4.0000'
                 ]
-            ]])
+            ])
             ->setConfirmed(true);
         
             $entityManager->persist($user);

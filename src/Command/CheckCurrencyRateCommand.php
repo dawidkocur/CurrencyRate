@@ -37,7 +37,7 @@ class CheckCurrencyRateCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $this->requestTokenAuth->sendRequest($this->router->generate('currencyApi', [], 0), 'GET');
+        $this->requestTokenAuth->sendRequest($this->router->generate('currencyApi', [], 0), 'GET', null);
         
         $io->success('Mission success!');
 
