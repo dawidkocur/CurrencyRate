@@ -45,7 +45,12 @@ class CustomKernelTestCase extends KernelTestCase
                 [
                 'currency' => 'dolar',
                 'min' => '3.5500',
-                'max' => '4.0000'
+                'max' => '4.3000'
+                ],
+                [
+                'currency' => 'funt',
+                'min' => '4.7000',
+                'max' => '5.7000'
                 ]
             ])
             ->setConfirmed(true);
@@ -60,13 +65,35 @@ class CustomKernelTestCase extends KernelTestCase
     {
         $entityManager = $this->getEntityManager();
 
-        $currency = new CurrencyRate();
-        $currency
+        $currency1 = new CurrencyRate();
+        $currency1
             ->setCurrency('euro')
             ->setCode('euo')
-            ->setMid(4.525);
+            ->setMid(4.5250);
+        
+        $currency2 = new CurrencyRate();
+        $currency2
+            ->setCurrency('funt')
+            ->setCode('fnt')
+            ->setMid(5.9000);
 
-        $entityManager->persist($currency);
+        $currency3 = new CurrencyRate();
+        $currency3
+            ->setCurrency('dolar')
+            ->setCode('usd')
+            ->setMid(4.1000);
+
+        $currency4 = new CurrencyRate();
+        $currency4
+            ->setCurrency('bat')
+            ->setCode('bta')
+            ->setMid(1.9000);
+
+        $entityManager->persist($currency1);
+        $entityManager->persist($currency2);
+        $entityManager->persist($currency3);
+        $entityManager->persist($currency4);
+
         $entityManager->flush();
     }
 }

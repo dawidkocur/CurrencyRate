@@ -4,7 +4,7 @@ namespace App\Factory;
 
 use App\Entity\User;
 
-class CreateNewUser extends UserFactory
+class CreateNewUser extends CustomUserFactory
 {
     /**
      * @param array $data
